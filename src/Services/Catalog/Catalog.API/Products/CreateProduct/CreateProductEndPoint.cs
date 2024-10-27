@@ -9,6 +9,7 @@ public class CreateProductEndPoint : ICarterModule
     {
         app.MapPost("/products", async (CreateProductRequest request, ISender sender) =>
         {
+            // Using Mapster to map the objects.
             var command = request.Adapt<CreateProductCommand>();
             var result = await sender.Send(command);
             var response = result.Adapt<CreateProductResonpse>();
