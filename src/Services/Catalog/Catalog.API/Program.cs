@@ -6,6 +6,10 @@ builder.Services.AddMediatR(config => // MediatR is a library that helps with CQ
 {
     config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
 });
+builder.Services.AddMarten(options =>
+{
+    options.Connection(builder.Configuration.GetConnectionString("DBConnString")!);
+}).UseLightweightSessions(); // Session chooses the performance of the database.
 
 var app = builder.Build();
 
