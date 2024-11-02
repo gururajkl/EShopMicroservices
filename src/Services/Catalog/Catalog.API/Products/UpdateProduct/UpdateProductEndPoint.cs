@@ -4,6 +4,9 @@ public record UpdateProductRequest(Guid Id, string Name, List<string> Category, 
     : ICommand<UpdateProductResponse>;
 public record UpdateProductResponse(bool IsSuccess);
 
+/// <summary>
+/// Endpoint used to send update product request using carter module.
+/// </summary>
 public class UpdateProductEndPoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
