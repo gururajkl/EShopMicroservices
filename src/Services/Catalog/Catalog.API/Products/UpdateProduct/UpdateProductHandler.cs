@@ -19,6 +19,21 @@ public record UpdateProductCommand(Guid Id, string Name, List<string> Category, 
 /// <param name="IsSuccess">Indicates whether the product update operation succeeded.</param>
 public record UpdateProductResult(bool IsSuccess);
 
+// Class that class before calling the handler class for validating the Product object.
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    /// <summary>
+    /// Registering the validation rules for the <see cref="UpdateProductCommand"/> object.
+    /// </summary>
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(r => r.Id).NotEmpty().WithMessage("Product Id is required");
+        RuleFor(r => r.Name).NotEmpty().WithMessage("Product name is required")
+            .Length(2, 150).WithMessage("Name must be between 2 and 150 characters");
+        RuleFor(r => r.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
+    }
+}
+
 /// <summary>
 /// Handler for <see cref="UpdateProductCommand"/> that performs the update operation on a product.
 /// Implements <see cref="ICommandHandler{UpdateProductCommand, UpdateProductResult}"/> to handle the command with a result.

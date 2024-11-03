@@ -1,16 +1,29 @@
+using BuildingBlocks.Behaviors;
+
 var builder = WebApplication.CreateBuilder(args);
+var assembly = typeof(Program).Assembly;
+
+// Add MediatR service.
+builder.Services.AddMediatR(config => // MediatR is a library that helps with CQRS(Command and Query Responsibility Segregation)
+{
+    config.RegisterServicesFromAssemblies(assembly);
+    // Register custom behavior.
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+});
+
+// Add Validator service (Registering).
+builder.Services.AddValidatorsFromAssembly(assembly);
 
 // Add services to the container.
 builder.Services.AddCarter(); // Using for the API endpoints.
-builder.Services.AddMediatR(config => // MediatR is a library that helps with CQRS(Command and Query Responsibility Segregation)
-{
-    config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
-});
+
+// Add Marten service.
 builder.Services.AddMarten(options =>
 {
     options.Connection(builder.Configuration.GetConnectionString("DBConnString")!);
 }).UseLightweightSessions(); // Session chooses the performance of the database.
 
+// Build the application.
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
