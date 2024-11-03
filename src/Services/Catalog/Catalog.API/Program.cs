@@ -22,6 +22,12 @@ builder.Services.AddMarten(options =>
     options.Connection(builder.Configuration.GetConnectionString("DBConnString")!);
 }).UseLightweightSessions(); // Session chooses the performance of the database.
 
+// Initialize some seed data if the environment is development.
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
+
 // Register custom exception.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
