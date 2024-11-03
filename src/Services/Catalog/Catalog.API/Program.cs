@@ -7,6 +7,7 @@ builder.Services.AddMediatR(config => // MediatR is a library that helps with CQ
     config.RegisterServicesFromAssemblies(assembly);
     // Register custom behavior.
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
 // Add Validator service (Registering).
