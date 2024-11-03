@@ -46,7 +46,7 @@ internal class UpdateProductCommandHandler(IDocumentSession session) : ICommandH
 
         if (productFromDb is null)
         {
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(command.Id);
         }
 
         // Update the product with new values.
