@@ -9,6 +9,7 @@ namespace BuildingBlocks.Exceptions.Handler;
 // Custom exception handler to handle the global exception.
 public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IExceptionHandler
 {
+    // Handler method of the same class.
     public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)
     {
         logger.LogError("Error Message: {exceptionMessage}, Time of occurrence {time}", exception.Message, DateTime.UtcNow);
