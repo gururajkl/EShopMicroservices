@@ -7,6 +7,8 @@ global using FluentValidation;
 global using Marten.Pagination;
 global using Catalog.API.Models;
 global using BuildingBlocks.CQRS;
+global using HealthChecks.UI.Client;
 global using Catalog.API.Exceptions;
 global using BuildingBlocks.Behaviors;
 global using BuildingBlocks.Exceptions.Handler;
+global using Microsoft.AspNetCore.Diagnostics.HealthChecks;

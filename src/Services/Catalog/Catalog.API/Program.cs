@@ -31,6 +31,10 @@ if (builder.Environment.IsDevelopment())
 // Register custom exception.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
+// Add HealthCheck service.
+// Check health of postgreSql as well, for that use: AspNetCore.HealthChecks.NpgSql
+builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("DBConnString")!);
+
 // Build the application.
 var app = builder.Build();
 
@@ -38,5 +42,12 @@ var app = builder.Build();
 app.MapCarter();
 
 app.UseExceptionHandler(options => { }); // Empty suggest to use registerd custom exception handler.
+
+// Configure health check pipeline.
+// Configure UI of the health check using AspNetCore.HealthChecks.UI.Client.
+app.UseHealthChecks("/health", new HealthCheckOptions()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.Run();
