@@ -1,3 +1,5 @@
+using BuildingBlocks.Exceptions.Handler;
+
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
 
@@ -26,7 +28,12 @@ builder.Services.AddMarten(options =>
 // Add IBasketRepository.
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
+// Register custom exception.
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 var app = builder.Build();
+
+app.UseExceptionHandler(options => { }); // Empty suggest to use registerd custom exception handler.
 
 // Configure the HTTP request pipeline.
 app.MapCarter();
