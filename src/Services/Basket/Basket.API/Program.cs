@@ -23,6 +23,9 @@ builder.Services.AddMarten(options =>
     options.Schema.For<ShoppingCart>().Identity(s => s.UserName);
 }).UseLightweightSessions(); // Session chooses the performance of the database.
 
+// Add IBasketRepository.
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

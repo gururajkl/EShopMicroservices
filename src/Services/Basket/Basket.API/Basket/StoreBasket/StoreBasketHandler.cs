@@ -12,12 +12,11 @@ public class StoreBasketCommandValidator : AbstractValidator<StoreBasketCommand>
     }
 }
 
-public class StoreBasketCommandHandler : ICommandHandler<StoreBasketCommand, StoreBasketResult>
+public class StoreBasketCommandHandler(IBasketRepository repository) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
-        // TODO: Use MediatR and PostgreSQL.
-        // TODO: Update cart.
-        return new("Dummy Item");
+        var cart = await repository.StoreBasket(command.ShoppingCart, cancellationToken);
+        return new(cart.UserName);
     }
 }
