@@ -15,6 +15,14 @@ builder.Services.AddMediatR(config => // MediatR is a library that helps with CQ
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
+// Add Marten service.
+builder.Services.AddMarten(options =>
+{
+    options.Connection(builder.Configuration.GetConnectionString("DBConnString")!);
+    // Override the default identity value and set UserName as identity column.
+    options.Schema.For<ShoppingCart>().Identity(s => s.UserName);
+}).UseLightweightSessions(); // Session chooses the performance of the database.
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
