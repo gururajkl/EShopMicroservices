@@ -1,5 +1,6 @@
 ﻿namespace Basket.API.Data;
 
+// Using Marten to get the data.
 public class BasketRepository(IDocumentSession session) : IBasketRepository
 {
     public async Task<ShoppingCart> GetBasket(string userName, CancellationToken cancellationToken = default)
