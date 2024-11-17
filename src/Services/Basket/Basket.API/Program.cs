@@ -1,3 +1,6 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
 
@@ -35,9 +38,17 @@ builder.Services.AddStackExchangeRedisCache(options =>
 // Register custom exception.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
+builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("DBConnString")!)
+    .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+
 var app = builder.Build();
 
 app.UseExceptionHandler(options => { }); // Empty suggest to use registerd custom exception handler.
+
+app.UseHealthChecks("/health", new HealthCheckOptions()
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 // Configure the HTTP request pipeline.
 app.MapCarter();
