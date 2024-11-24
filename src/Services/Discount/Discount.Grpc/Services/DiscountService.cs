@@ -4,7 +4,7 @@ using Grpc.Core;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace Discount.Grpc.Protos;
+namespace Discount.Grpc.Services;
 
 public class DiscountService(DiscountDataContext dbContext, ILogger<DiscountService> logger) : DiscountProtoService.DiscountProtoServiceBase
 {
