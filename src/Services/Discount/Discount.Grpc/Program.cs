@@ -1,9 +1,14 @@
+using Discount.Grpc.Data;
 using Discount.Grpc.Protos;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+
+// Configure EFCore to use it's DataContext.
+builder.Services.AddDbContext<DiscountDataContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("Database")));
 
 var app = builder.Build();
 
