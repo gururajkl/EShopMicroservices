@@ -1,12 +1,13 @@
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Application Services.
+// Add services to the container.
 var assembly = typeof(Program).Assembly;
 
-// Add services to the container.
-
-// Add services to the container.
 builder.Services.AddCarter(); // Using for the API endpoints.
 
 // Add MediatR service.
@@ -17,7 +18,9 @@ builder.Services.AddMediatR(config => // MediatR is a library that helps with CQ
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
+#endregion
 
+#region Data Services.
 // Add Marten service.
 builder.Services.AddMarten(options =>
 {
@@ -34,12 +37,31 @@ builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
+#endregion
 
+#region Grpc Services.
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback =
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+    return handler;
+});
+#endregion
+
+#region Cross-Cutting Services.
 // Register custom exception.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("DBConnString")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+#endregion
 
 var app = builder.Build();
 
