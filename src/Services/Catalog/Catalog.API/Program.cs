@@ -6,6 +6,10 @@ builder.Services.AddMediatR(config => // Resgiter MediatR.
 {
     config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
 });
+builder.Services.AddMarten(options => // Register Marten.
+{
+    options.Connection(builder.Configuration.GetConnectionString("Database")!);
+}).UseLightweightSessions();
 #endregion
 
 var app = builder.Build();
