@@ -19,6 +19,11 @@ builder.Services.AddMarten(options => // Register Marten.
     options.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
+
 // Register custom exception handler.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 #endregion
