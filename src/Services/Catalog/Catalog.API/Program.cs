@@ -1,11 +1,20 @@
+using BuildingBlocks.Behaviors;
+
 var builder = WebApplication.CreateBuilder(args);
 
 #region Before building app, Add services to the container.
-builder.Services.AddCarter(); // Register Carter.
+var assesmbly = typeof(Program).Assembly;
+
 builder.Services.AddMediatR(config => // Resgiter MediatR.
 {
-    config.RegisterServicesFromAssemblies(typeof(Program).Assembly);
+    config.RegisterServicesFromAssemblies(assesmbly);
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>)); // Register custom pipeline behavior.
 });
+
+builder.Services.AddValidatorsFromAssembly(assesmbly); // Register Fluent validation.
+
+builder.Services.AddCarter(); // Register Carter.
+
 builder.Services.AddMarten(options => // Register Marten.
 {
     options.Connection(builder.Configuration.GetConnectionString("Database")!);
