@@ -7,6 +7,7 @@ builder.Services.AddMediatR(config => // Resgiter MediatR.
 {
     config.RegisterServicesFromAssemblies(assesmbly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>)); // Register custom pipeline behavior.
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>)); // Register custom pipeline behavior.
 });
 
 builder.Services.AddValidatorsFromAssembly(assesmbly); // Register Fluent validation.
