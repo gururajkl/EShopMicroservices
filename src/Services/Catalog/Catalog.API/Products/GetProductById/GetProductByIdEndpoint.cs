@@ -1,6 +1,4 @@
-﻿using Catalog.API.Products.CreateProduct;
-
-namespace Catalog.API.Products.GetProductById;
+﻿namespace Catalog.API.Products.GetProductById;
 
 public record GetProductByIdResponse(Product Product);
 
@@ -17,7 +15,7 @@ public class GetProductByIdEndpoint : ICarterModule
         .WithName("GetProductById")
         .WithDescription("Get product by id")
         .WithSummary("Get product using CQRS pattern")
-        .Produces<CreateProductResponse>(StatusCodes.Status201Created)
+        .Produces<GetProductByIdResponse>(StatusCodes.Status201Created)
         .ProducesProblem(StatusCodes.Status400BadRequest);
     }
 }
