@@ -12,7 +12,7 @@ public class GetProductByIdQueryHandler(IDocumentSession session, ILogger<GetPro
         if(product is null)
         {
             logger.LogError("Product not found");
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(query.Id);
         }
 
         return new GetProductByIdResult(product);

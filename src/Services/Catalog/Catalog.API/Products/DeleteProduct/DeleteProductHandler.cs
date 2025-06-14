@@ -23,7 +23,7 @@ public class DeleteProductCommandHandler(IDocumentSession session, ILogger<Delet
         if (product is null)
         {
             logger.LogError("Product not found with the ID {0}", command.Id);
-            throw new ProductNotFoundException();
+            throw new ProductNotFoundException(command.Id);
         }
 
         session.Delete(product);
