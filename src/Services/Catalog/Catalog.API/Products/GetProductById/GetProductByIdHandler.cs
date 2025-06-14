@@ -9,7 +9,7 @@ public class GetProductByIdQueryHandler(IDocumentSession session, ILogger<GetPro
     {
         var product = await session.LoadAsync<Product>(query.Id, cancellationToken);
 
-        if(product is null)
+        if (product is null)
         {
             logger.LogError("Product not found");
             throw new ProductNotFoundException(query.Id);
