@@ -1,11 +1,10 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿namespace BuildingBlocks.Exceptions.Handler;
 
-namespace BuildingBlocks.Exceptions.Handler;
-
+/// <summary>
+/// Global exception handler class which implements <see cref="IExceptionHandler"/>.<b>
+/// Handles the exception that happened in app and returns the proper HTTP response.
+/// </summary>
+/// <param name="logger">ILogger which is used to log the error.</param>
 public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext context, Exception exception, CancellationToken cancellationToken)

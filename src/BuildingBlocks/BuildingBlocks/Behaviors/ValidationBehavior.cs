@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-using FluentValidation;
-
-namespace BuildingBlocks.Behaviors;
+﻿namespace BuildingBlocks.Behaviors;
 
 // Validates all the validators for the request type.
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
