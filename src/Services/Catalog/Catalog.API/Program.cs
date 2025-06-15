@@ -1,3 +1,6 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 var builder = WebApplication.CreateBuilder(args);
 
 #region Before building app, Add services to the container.
@@ -26,6 +29,11 @@ if (builder.Environment.IsDevelopment())
 
 // Register custom exception handler.
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+// Register Health Checks.
+builder.Services.AddHealthChecks()
+    // Add PostgreSQL for the health checks using AspNetCore.Diagnostics.HealthChecks
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!); 
 #endregion
 
 var app = builder.Build();
@@ -36,6 +44,13 @@ app.MapCarter(); // Helps to map the routes, adds to the middleware.
 // Handler global exception.
 // Empty indicates that to rely on custom exception handler.
 app.UseExceptionHandler(option => { });
+
+// Start using health checks by exposing the endpoint.
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    // This helps us to see the response in JSON format.
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 #endregion
 
 app.Run();
