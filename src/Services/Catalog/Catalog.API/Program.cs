@@ -33,7 +33,7 @@ builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 // Register Health Checks.
 builder.Services.AddHealthChecks()
     // Add PostgreSQL for the health checks using AspNetCore.Diagnostics.HealthChecks
-    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!); 
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 #endregion
 
 var app = builder.Build();
