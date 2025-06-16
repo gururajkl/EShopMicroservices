@@ -18,6 +18,6 @@ public class StoreBasketCommandHandler(IBasketRepository repository) : ICommandH
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
         var basket = await repository.StoreBasket(command.Cart, cancellationToken);
-        return new StoreBasketResult(basket.UserName);
+        return new StoreBasketResult(command.Cart.UserName);
     }
 }
