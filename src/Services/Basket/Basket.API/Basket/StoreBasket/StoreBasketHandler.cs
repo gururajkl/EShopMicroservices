@@ -1,7 +1,7 @@
 ﻿namespace Basket.API.Basket.StoreBasket;
 
 public record StoreBasketCommand(ShoppingCart Cart) : ICommand<StoreBasketResult>;
-public record StoreBasketResult(string userName);
+public record StoreBasketResult(string UserName);
 
 // Validation for the command.
 public class StoreBasketValidator : AbstractValidator<StoreBasketCommand>
