@@ -7,3 +7,4 @@ global using Mapster;
 global using MediatR;
 global using Basket.API.Models;
 global using Carter;
+global using Basket.API.Basket.GetBasket;
