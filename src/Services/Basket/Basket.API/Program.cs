@@ -28,6 +28,13 @@ builder.Services.AddMarten(options =>
 
 // Register Basket service.
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>(); // Using Scrutor to create a decorator of BasketRepo.
+
+// Register StackExchange redis cache.
+builder.Services.AddStackExchangeRedisCache(option =>
+{
+    option.Configuration = builder.Configuration.GetConnectionString("Redis"); // Default is 6379.
+});
 
 var app = builder.Build();
 
