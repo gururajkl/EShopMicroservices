@@ -32,6 +32,9 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// Handler global exception.
+// Empty indicates that to rely on custom exception handler.
 app.UseExceptionHandler(options => { });
 
 app.MapCarter();
