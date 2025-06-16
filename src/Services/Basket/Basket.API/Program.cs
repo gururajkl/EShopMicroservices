@@ -21,6 +21,9 @@ builder.Services.AddMarten(options =>
     options.Schema.For<ShoppingCart>().Identity(x => x.UserName); // Set UserName as identity field.
 }).UseLightweightSessions();
 
+// Register Basket service.
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
