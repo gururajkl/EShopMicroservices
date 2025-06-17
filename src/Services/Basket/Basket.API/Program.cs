@@ -1,4 +1,6 @@
 using BuildingBlocks.Exceptions.Handler;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 var assembly = typeof(Program).Assembly;
@@ -36,6 +38,11 @@ builder.Services.AddStackExchangeRedisCache(option =>
     option.Configuration = builder.Configuration.GetConnectionString("Redis"); // Default is 6379.
 });
 
+// Register, Which and need to be checked during health checks.
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
+    .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +50,12 @@ var app = builder.Build();
 // Handler global exception.
 // Empty indicates that to rely on custom exception handler.
 app.UseExceptionHandler(options => { });
+
+// Add health check in this API.
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.MapCarter();
 
