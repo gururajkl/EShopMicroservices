@@ -1,4 +1,5 @@
 using BuildingBlocks.Exceptions.Handler;
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -7,9 +8,7 @@ var assembly = typeof(Program).Assembly;
 
 // Add services to the container.
 
-// Register CustomException.
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
-
+#region Application services.
 // Register carter.
 builder.Services.AddCarter();
 
@@ -20,7 +19,9 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
+#endregion
 
+#region Data services.
 // Register Marten.
 builder.Services.AddMarten(options =>
 {
@@ -37,11 +38,23 @@ builder.Services.AddStackExchangeRedisCache(option =>
 {
     option.Configuration = builder.Configuration.GetConnectionString("Redis"); // Default is 6379.
 });
+#endregion
+
+// Grpc services.
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+});
+
+#region Cross cutting services.
+// Register CustomException.
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 // Register, Which and need to be checked during health checks.
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
     .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
+#endregion
 
 var app = builder.Build();
 
