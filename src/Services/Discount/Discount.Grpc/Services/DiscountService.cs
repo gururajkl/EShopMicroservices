@@ -40,7 +40,7 @@ public class DiscountService(DiscountContext dbContext, ILogger<DiscountService>
         dbContext.Coupons.Add(coupon);
         await dbContext.SaveChangesAsync();
 
-        logger.LogInformation("Coupon creation success - {0}", coupon);
+        logger.LogInformation("Coupon creation success - {0}", coupon.ProductName);
 
         return coupon.Adapt<CouponModel>();
     }
@@ -58,7 +58,7 @@ public class DiscountService(DiscountContext dbContext, ILogger<DiscountService>
         dbContext.Coupons.Update(coupon);
         await dbContext.SaveChangesAsync();
 
-        logger.LogInformation("Coupon updation success - {0}", coupon);
+        logger.LogInformation("Coupon updation success - {0}", coupon.ProductName);
 
         return coupon.Adapt<CouponModel>();
     }
@@ -76,7 +76,7 @@ public class DiscountService(DiscountContext dbContext, ILogger<DiscountService>
         dbContext.Coupons.Remove(coupon);
         await dbContext.SaveChangesAsync();
 
-        logger.LogInformation("Coupon deletion success - {0}", coupon);
+        logger.LogInformation("Coupon deletion success - {0}", coupon.ProductName);
 
         return new() { Success = true };
     }
