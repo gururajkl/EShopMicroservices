@@ -15,7 +15,8 @@ public class StoreBasketValidator : AbstractValidator<StoreBasketCommand>
     }
 }
 
-public class StoreBasketCommandHandler(IBasketRepository repository, DiscountProtoService.DiscountProtoServiceClient discountProtoServiceClient)
+public class StoreBasketCommandHandler(IBasketRepository repository, DiscountProtoService.DiscountProtoServiceClient discountProtoServiceClient,
+    ILogger<StoreBasketCommandHandler> logger)
     : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
@@ -26,12 +27,17 @@ public class StoreBasketCommandHandler(IBasketRepository repository, DiscountPro
             var coupon = await discountProtoServiceClient.GetDiscountAsync(new GetDiscountRequest() { ProductName = item.ProductName },
                 cancellationToken: cancellationToken);
 
+            if (coupon.Amount <= 0)
+            {
+                logger.LogInformation("No discount will be applied for {0}", coupon.ProductName);
+            }
+
             // After getting the coupon of the product calculate the total price.
             item.Price -= coupon.Amount;
         }
 
         await repository.StoreBasket(command.Cart, cancellationToken);
-       
+
         return new StoreBasketResult(command.Cart.UserName);
     }
 }

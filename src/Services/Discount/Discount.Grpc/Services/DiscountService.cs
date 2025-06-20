@@ -31,7 +31,7 @@ public class DiscountService(DiscountContext dbContext, ILogger<DiscountService>
     {
         var coupon = request.Coupon.Adapt<Coupon>();
 
-        if(coupon is null)
+        if (coupon is null)
         {
             logger.LogError("Invalid coupon request");
             throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid coupon request"));
