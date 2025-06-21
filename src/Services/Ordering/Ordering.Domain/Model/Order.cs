@@ -1,5 +1,6 @@
 ﻿namespace Ordering.Domain.Model;
 
+// Building this model as Rich domain model instead of Anemic domain model.
 public class Order : Aggregate<OrderId>
 {
     private readonly List<OrderItem> _orderItems = new();
@@ -16,4 +17,6 @@ public class Order : Aggregate<OrderId>
         get => OrderItems.Sum(o => o.Price * o.Quantity);
         private set { }
     }
+
+    // Business logic.
 }

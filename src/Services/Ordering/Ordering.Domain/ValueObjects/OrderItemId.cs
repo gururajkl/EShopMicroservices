@@ -4,8 +4,17 @@ public record OrderItemId
 {
     public Guid Value { get; }
 
-    internal static OrderItemId Of(Guid guid)
+    private OrderItemId(Guid value) => Value = value;
+
+    public static OrderItemId Of(Guid value)
     {
-        throw new NotImplementedException();
+        ArgumentNullException.ThrowIfNull(value, nameof(value));
+
+        if (value == Guid.Empty)
+        {
+            throw new DominException("OrderItemId cannot be empty");
+        }
+
+        return new OrderItemId(value);
     }
 }
