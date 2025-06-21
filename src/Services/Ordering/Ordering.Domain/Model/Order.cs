@@ -49,6 +49,7 @@ public class Order : Aggregate<OrderId>
         AddDomainEvents(new OrderUpdatedEvent(this));
     }
 
+    // Used to add order item.
     public void Add(ProductId productId, int quantity, decimal price)
     {
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity, nameof(quantity));
@@ -59,6 +60,7 @@ public class Order : Aggregate<OrderId>
         _orderItems.Add(orderItem);
     }
 
+    // Used to remove the order item.
     public void Remove(ProductId productId)
     {
         var orderItem = _orderItems.FirstOrDefault(o => o.ProductId == productId);
