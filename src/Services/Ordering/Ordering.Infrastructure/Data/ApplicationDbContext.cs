@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // This line scans the assembly and uses the class which is implementing IEntityConfiguration.
+        // This line scans the assembly and uses the class which is implementing IEntityTypeConfiguration.
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }
