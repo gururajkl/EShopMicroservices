@@ -12,7 +12,7 @@ public record ProductId
 
         if (value == Guid.Empty)
         {
-            throw new DominException("ProductId cannot be empty");
+            throw new DomainException("ProductId cannot be empty");
         }
 
         return new ProductId(value);

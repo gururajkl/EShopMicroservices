@@ -12,7 +12,7 @@ public record CustomerId
 
         if (value == Guid.Empty)
         {
-            throw new DominException("CustomerId cannot be empty");
+            throw new DomainException("CustomerId cannot be empty");
         }
 
         return new CustomerId(value);

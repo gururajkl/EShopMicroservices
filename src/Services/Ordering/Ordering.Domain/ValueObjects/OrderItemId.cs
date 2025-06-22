@@ -12,7 +12,7 @@ public record OrderItemId
 
         if (value == Guid.Empty)
         {
-            throw new DominException("OrderItemId cannot be empty");
+            throw new DomainException("OrderItemId cannot be empty");
         }
 
         return new OrderItemId(value);
