@@ -21,7 +21,7 @@ var app = builder.Build();
 // Custom extension method.
 app.UseApiServices();
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     await app.InitialDatabaseAsync();
 }
