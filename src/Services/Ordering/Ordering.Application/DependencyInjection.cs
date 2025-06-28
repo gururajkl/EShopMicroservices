@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Ordering.Application;
 
@@ -11,6 +12,11 @@ public static class DependencyInjection
     /// <returns>Service object with all added services.</returns>
     public static IServiceCollection AddApplicationService(this IServiceCollection services)
     {
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
+        });
+
         return services;
     }
 }
