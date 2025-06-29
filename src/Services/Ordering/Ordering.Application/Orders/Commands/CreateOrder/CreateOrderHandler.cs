@@ -1,6 +1,4 @@
-﻿using Ordering.Application.Data;
-using Ordering.Domain.ValueObjects;
-
+﻿using Ordering.Domain.ValueObjects;
 namespace Ordering.Application.Orders.Commands.CreateOrder;
 
 public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateOrderCommand, CreateOrderResult>
