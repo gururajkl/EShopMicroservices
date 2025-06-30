@@ -6,3 +6,6 @@ global using Ordering.Application.Exceptions;
 global using Ordering.Domain.Enums;
 global using Ordering.Domain.Model;
 global using Ordering.Domain.ValueObjects;
+global using MediatR;
+global using Microsoft.Extensions.Logging;
+global using Ordering.Domain.Events;
