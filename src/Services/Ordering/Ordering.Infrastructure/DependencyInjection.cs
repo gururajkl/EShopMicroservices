@@ -22,7 +22,7 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
             // Register interceptors for EFCore.
-            options.AddInterceptors(serviceProvider.GetService<ISaveChangesInterceptor>()!);
+            options.AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>()!);
             options.UseSqlServer(connectionString);
         });
 
