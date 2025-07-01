@@ -22,10 +22,10 @@ public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandl
         var payment = Payment.Of(orderDto.Payment.CardName, orderDto.Payment.CardNumber, orderDto.Payment.Expiration, orderDto.Payment.Cvv,
             orderDto.Payment.PaymentMethod);
 
-        var newOrder = Order.Create(OrderId.Of(Guid.NewGuid()), CustomerId.Of(Guid.NewGuid()), OrderName.Of(orderDto.OrderName),
+        var newOrder = Order.Create(OrderId.Of(Guid.NewGuid()), CustomerId.Of(orderDto.CustomerId), OrderName.Of(orderDto.OrderName),
             shippingAddress, billingAddress, payment);
 
-        foreach (var orderItemDto in orderDto.OrderItem)
+        foreach (var orderItemDto in orderDto.OrderItems)
         {
             newOrder.Add(ProductId.Of(orderItemDto.ProductId), orderItemDto.Quantity, orderItemDto.Price);
         }
