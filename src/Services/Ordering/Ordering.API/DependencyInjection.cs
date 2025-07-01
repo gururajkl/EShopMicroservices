@@ -1,6 +1,4 @@
-﻿using Carter;
-
-namespace Ordering.API;
+﻿namespace Ordering.API;
 
 public static class DependencyInjection
 {
