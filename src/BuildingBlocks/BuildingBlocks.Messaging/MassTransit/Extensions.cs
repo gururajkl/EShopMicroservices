@@ -15,6 +15,7 @@ public static class Extensions
         {
             config.SetKebabCaseEndpointNameFormatter();
 
+            // If there is assembly passed register that as consumer.
             if (assembly != null)
                 config.AddConsumers(assembly);
 

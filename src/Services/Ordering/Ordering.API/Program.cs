@@ -12,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Appliacation - MediatR.
 // API - Carter, Health checks...
 // These are all extension methods.
-builder.Services.AddApplicationService().AddInfrastructureService(builder.Configuration).AddApiServices(builder.Configuration);
+builder.Services.AddApplicationService(builder.Configuration)
+    .AddInfrastructureService(builder.Configuration).AddApiServices(builder.Configuration);
 
 var app = builder.Build();
 
