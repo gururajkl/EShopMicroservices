@@ -15,7 +15,7 @@ internal class BasketCheckoutEventHandler(ILogger<BasketCheckoutEventHandler> lo
         await sender.Send(command);
     }
 
-    private CreateOrderCommand MapToCreateOrderCommand(BasketCheckoutEvent message)
+    private static CreateOrderCommand MapToCreateOrderCommand(BasketCheckoutEvent message)
     {
         var addressDto = new AddressDto(message.FirstName, message.LastName, message.EmailAddress, message.AddressLine, message.Country, message.State, message.ZipCode);
         var paymentDto = new PaymentDto(message.CardName, message.CardNumber, message.Expiration, message.CVV, message.PaymentMethod);
