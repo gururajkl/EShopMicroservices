@@ -1,4 +1,5 @@
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -53,6 +54,8 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
 
     return handler;
 });
+
+builder.Services.AddMessageBroker(builder.Configuration);
 
 #region Cross cutting services.
 // Register CustomException.
